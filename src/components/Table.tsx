@@ -1,9 +1,5 @@
-import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
-
-type TableProps = {
-  header?: Array<string>;
-  rows: Array<Data>;
-};
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { callApi } from "../api/apiCalls";
 
 type Data = {
   id: string;
@@ -21,7 +17,7 @@ type Data = {
   };
 };
 
-export default function Table({
+export default async function Table({
   header = [
     "ID",
     "Country",
@@ -36,14 +32,15 @@ export default function Table({
     "WHO Region",
     "Actions",
   ],
-  rows = [],
-}: TableProps) {
+}: {
+  header?: Array<string>;
+}) {
   const tdClassName =
     "px-2 py text-center font-medium text-primary whitespace-nowrap border border-primary";
-
+  const rows = await callApi();
   return (
     <>
-      <div className="w-full h-[70dvh]">
+      <div className="w-full h-[70dvh] shadow shadow-primary">
         <div className="w-full h-full overflow-auto ">
           {rows.length !== 0 ? (
             <table className="w-full text-sm text-left text-primary rtl:text-right">

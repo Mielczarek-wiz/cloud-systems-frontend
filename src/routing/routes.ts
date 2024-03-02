@@ -5,6 +5,10 @@ type Route = {
 
 const routes: Route[] = [
   {
+    name: "Home",
+    link: "/",
+  },
+  {
     name: "Statistics",
     link: "/stats",
   },
