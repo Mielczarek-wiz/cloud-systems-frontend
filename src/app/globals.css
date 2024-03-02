@@ -9,7 +9,7 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
+  color: var(--foreground-rgb);
   background: linear-gradient(
     to bottom,
     var(--background-start),
@@ -23,4 +23,26 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+  border-radius: 0.75rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 0.75rem;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--foreground-rgb);
+  border-radius: 0.75rem;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--foreground-rgb);
 }

@@ -6,16 +6,16 @@ type TableProps = {
 };
 
 type Data = {
-  id: number;
+  id: string;
   country: string;
-  confirmed: number;
-  deaths: number;
-  recovered: number;
-  active: number;
-  newCases: number;
-  newDeaths: number;
-  newRecovered: number;
-  confirmedLastWeek: number;
+  confirmed: string;
+  deaths: string;
+  recovered: string;
+  active: string;
+  newCases: string;
+  newDeaths: string;
+  newRecovered: string;
+  confirmedLastWeek: string;
   whoRegion: {
     region: string;
   };
@@ -36,33 +36,16 @@ export default function Table({
     "WHO Region",
     "Actions",
   ],
-  rows,
+  rows = [],
 }: TableProps) {
-  const rowsy: Data[] = [
-    {
-      id: 1,
-      country: "Afghanistan",
-      confirmed: 55514,
-      deaths: 2425,
-      recovered: 49378,
-      active: 2711,
-      newCases: 0,
-      newDeaths: 0,
-      newRecovered: 0,
-      confirmedLastWeek: 0,
-      whoRegion: {
-        region: "Eastern Mediterranean",
-      },
-    },
-  ];
-
   const tdClassName =
     "px-2 py text-center font-medium text-primary whitespace-nowrap border border-primary";
+
   return (
     <>
       <div className="w-full h-[70dvh]">
         <div className="w-full h-full overflow-auto ">
-          {rowsy.length !== 0 ? (
+          {rows.length !== 0 ? (
             <table className="w-full text-sm text-left text-primary rtl:text-right">
               <thead className="sticky top-0 text-xs text-primary uppercase bg-secondary">
                 <tr className="border border-primary">
@@ -70,7 +53,7 @@ export default function Table({
                     <th
                       key={item}
                       scope="col"
-                      className="px-4 py-4 text-center font-extrabold text-primary border  border-primary whitespace-nowrap"
+                      className="px-2 py-4 text-center font-extrabold text-primary border  border-primary whitespace-nowrap"
                     >
                       {item}
                     </th>
@@ -78,7 +61,7 @@ export default function Table({
                 </tr>
               </thead>
               <tbody>
-                {rowsy.map((item: Data) => (
+                {rows.map((item: Data) => (
                   <tr
                     key={item.id}
                     className="bg-third border border-primary text-primary"
