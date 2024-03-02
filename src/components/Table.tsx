@@ -88,7 +88,7 @@ export default function Table({
                     <td>
                       <div className="flex flex-row items-center justify-center px-2 py-2">
                         <button>
-                          <PencilSquareIcon className="w-6 h-6 text-blue-500 hover:cursor-pointer" />
+                          <PencilSquareIcon className="w-6 h-6 text-blue-500 transition duration-200 hover:cursor-pointer hover:text-blue-400" />
                         </button>
                       </div>
                     </td>
