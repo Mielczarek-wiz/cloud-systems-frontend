@@ -1,21 +1,6 @@
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import { getAll } from "../api/apiCalls";
-
-type Data = {
-  id: string;
-  country: string;
-  confirmed: string;
-  deaths: string;
-  recovered: string;
-  active: string;
-  newCases: string;
-  newDeaths: string;
-  newRecovered: string;
-  confirmedLastWeek: string;
-  whoRegion: {
-    region: string;
-  };
-};
+import { Data } from "@/types/Data"
 
 export default async function Table({
   header = [
