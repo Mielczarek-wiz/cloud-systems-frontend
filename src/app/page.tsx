@@ -1,11 +1,11 @@
 import FunctionalityComponent from "@/components/FunctionalityComponent";
-import Table from "@/components/Table";
+import MainTable from "@/components/MainTable";
 
 export default async function Home() {
   return (
     <div className="w-full px-10">
       <FunctionalityComponent />
-      <Table />
+      <MainTable />
     </div>
   );
 }

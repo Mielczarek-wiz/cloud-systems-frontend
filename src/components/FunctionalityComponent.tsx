@@ -9,7 +9,11 @@ export default function FunctionalityComponent() {
         <AddButton />
         <FilterInput />
       </div>
-      <LinkButton route={"Statistics"} text={"Go to Stats"}/>
+      <LinkButton
+        route={"Statistics"}
+        text={"Go to Stats"}
+        className="rounded-s-sm rounded-e-lg"
+      />
     </div>
   );
 }
