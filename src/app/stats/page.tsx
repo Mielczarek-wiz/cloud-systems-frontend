@@ -8,6 +8,7 @@ export default function Stats() {
         <LinkButton
           route={"Home"}
           text={"Go back"}
+          toLeft={true}
           className="rounded-e-sm rounded-s-lg"
         />
       </div>

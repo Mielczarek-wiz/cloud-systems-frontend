@@ -6,12 +6,14 @@ import { cn } from "@/utils/cn";
 type LinkButtonType = {
   route: Route["name"];
   text: string;
+  toLeft: boolean;
   className?: string;
 };
 
 export default function LinkButton({
   route,
   text,
+  toLeft = false,
   className = "",
 }: LinkButtonType) {
   return (
@@ -22,7 +24,7 @@ export default function LinkButton({
         className
       )}
     >
-      {text} --&gt;
+      {toLeft ? <span>&lt;-- {text}</span> : <span>{text} --&gt;</span>}
     </Link>
   );
 }

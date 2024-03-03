@@ -12,6 +12,7 @@ export default function FunctionalityComponent() {
       <LinkButton
         route={"Statistics"}
         text={"Go to Stats"}
+        toLeft={false}
         className="rounded-s-sm rounded-e-lg"
       />
     </div>
