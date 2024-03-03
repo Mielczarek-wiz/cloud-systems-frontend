@@ -1,7 +1,4 @@
-type Route = {
-  name: "Statistics" | "Home";
-  link: string;
-};
+import { Route } from "@/types/Route";
 
 const routes: Route[] = [
   {

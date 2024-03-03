@@ -1,7 +1,6 @@
-import Link from "next/link";
 import AddButton from "./AddButton";
 import FilterInput from "./FilterInput";
-import { getRoutes } from "@/routing/routes";
+import LinkButton from "./LinkButton";
 
 export default function FunctionalityComponent() {
   return (
@@ -10,12 +9,7 @@ export default function FunctionalityComponent() {
         <AddButton />
         <FilterInput />
       </div>
-      <Link
-        href={getRoutes("Statistics")}
-        className="border rounded-s-sm px-4 py-2 bg-third rounded-e-lg border-primary hover:bg-primary hover:text-third text-primary hover:cursor-pointer transition duration-200"
-      >
-        Go to Stats --&gt;
-      </Link>
+      <LinkButton route={"Statistics"} text={"Go to Stats"}/>
     </div>
   );
 }

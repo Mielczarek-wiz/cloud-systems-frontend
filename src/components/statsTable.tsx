@@ -1,41 +1,66 @@
-import { Stats } from "@/types/rowData"
-import type { InferGetStaticPropsType, GetStaticProps } from 'next'
+import { getStats } from "@/api/apiCalls";
+import { Stats } from "@/types/Stats"
 
-
-//TODO fix this shit
-export const getStaticProps = (async (context) => {
-    const res = await fetch("http://localhost:8080/stats")
-    const repo = await res.json()
-    return { props: { repo } }
-  }) satisfies GetStaticProps<{repo: Stats[]}>
-
-export default function StatsTable({repo}: InferGetStaticPropsType<typeof getStaticProps>) {
-  //TODO Replace temporary css classes 
-  console.log(repo)
+export default async function StatsTable({
+    header = [
+        "ID",
+        "Country",
+        "Deaths / 100 Cases",
+        "Recovered / 100 Cases",
+        "Deaths / 100 Recovered",
+        "1 week change",
+        "New 1 week % increase"
+      ]
+}: {
+    header?: Array<string>;
+  }) {
+    const tdClassName = "px-2 py-2 text-center font-medium text-primary whitespace-nowrap border border-primary";
+    const rows = await getStats();
   return (
-    <table className="table-fixed">
-        <thead className="sticky top-0 bg-slate-800">
-            <tr>
-                <th className="border">Country</th>
-                <th className="border">Deaths / 100 Cases</th>
-                <th className="border">Recovered / 100 Cases</th>
-                <th className="border">Deaths / 100 Recovered</th>
-                <th className="border">1 week change</th>
-                <th className="border">1 week % increase</th>
-            </tr>
-        </thead>
-        <tbody>
-            {repo.map((row: Stats) => {
-                return <tr key={row.id} className="bg-slate-950 even:bg-slate-900">
-                    <td className="p-6 border text-center">{row.country}</td>
-                    <td className="p-6 border text-center">{row.deathsPerCases}</td>
-                    <td className="p-6 border text-center">{row.recoveredPerCases}</td>
-                    <td className="p-6 border text-center">{row.deathsPerRecovered}</td>
-                    <td className="p-6 border text-center">{row.weekChange}</td>
-                    <td className="p-6 border text-center">{row.weekPercentageIncrease}</td>
+    <>
+      <div className="w-full h-[70dvh] shadow shadow-primary">
+        <div className="w-full h-full overflow-auto ">
+          {rows.length !== 0 ? (
+            <table className="w-full text-sm text-left text-primary rtl:text-right">
+              <thead className="sticky top-0 text-xs text-primary uppercase bg-secondary">
+                <tr className="border border-primary">
+                  {header.map((item) => (
+                    <th
+                      key={item}
+                      scope="col"
+                      className="px-2 py-4 text-center font-extrabold text-primary border  border-primary whitespace-nowrap"
+                    >
+                      {item}
+                    </th>
+                  ))}
                 </tr>
-            })}
-        </tbody>
-    </table>
+              </thead>
+              <tbody>
+                {rows.map((item: Stats) => (
+                  <tr
+                    key={item.id}
+                    className="bg-third border border-primary text-primary"
+                  >
+                    <th scope="row" className={tdClassName}>
+                      {item.id}
+                    </th>
+                    <td className={tdClassName}>{item.country.toString()}</td>
+                    <td className={tdClassName}>{item.deathsPerCases}</td>
+                    <td className={tdClassName}>{item.recoveredPerCases}</td>
+                    <td className={tdClassName}>{item.deathsPerRecovered}</td>
+                    <td className={tdClassName}>{item.weekChange}</td>
+                    <td className={tdClassName}>{item.weekPercentageIncrease}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <span className="flex flex-row items-center justify-center w-full h-full text-xl font-extrabold text-center text-primary border">
+              No data to display
+            </span>
+          )}
+        </div>
+      </div>
+    </>
   )
 }
