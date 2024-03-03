@@ -1,4 +1,4 @@
-export const callApi = async () => {
+export const getAll = async () => {
   try {
     const response = await fetch("http://localhost:8080/object");
     const data = await response.json();

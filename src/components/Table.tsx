@@ -1,5 +1,5 @@
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
-import { callApi } from "../api/apiCalls";
+import { getAll } from "../api/apiCalls";
 
 type Data = {
   id: string;
@@ -37,7 +37,7 @@ export default async function Table({
 }) {
   const tdClassName =
     "px-2 py text-center font-medium text-primary whitespace-nowrap border border-primary";
-  const rows = await callApi();
+  const rows = await getAll();
   return (
     <>
       <div className="w-full h-[70dvh] shadow shadow-primary">
