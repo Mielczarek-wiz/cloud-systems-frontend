@@ -1,12 +1,9 @@
 import { getStats } from "@/api/apiCalls";
-import { Stats } from "@/types/Stats";
 import Thead from "./tableComponents/Thead";
 import Table from "./tableComponents/Table";
 import TableWrapper from "./tableComponents/TableWrapper";
 import NoData from "./tableComponents/NoData";
-import Tr from "./tableComponents/Tr";
-import Th from "./tableComponents/Th";
-import Td from "./tableComponents/Td";
+import StatsTableBody from "./tableComponents/StatsTableBody";
 
 export default async function StatsTable() {
   const rows = await getStats();
@@ -25,7 +22,7 @@ export default async function StatsTable() {
               "New 1 week % increase",
             ]}
           />
-          <StatsTable />
+          <StatsTableBody rows={rows} />
         </Table>
       ) : (
         <NoData />
