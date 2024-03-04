@@ -1,4 +1,4 @@
 export type Route = {
-    name: "Statistics" | "Home";
-    link: string;
-  };
+  name: "Statistics" | "Home";
+  link: string;
+};
