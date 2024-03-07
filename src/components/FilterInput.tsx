@@ -1,12 +1,22 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Input from "./forms/formComponents/Input";
 
 export default function FilterInput() {
   const router = useRouter();
+  const region_id = 0;
+  const pathname = usePathname();
+  let selectDefaultValue = 0;
+  if (Number.isInteger(Number(pathname.at(-1)))) {
+    selectDefaultValue = Number(pathname.at(-1));
+  }
+
   const handleInput = async (e: any) => {
     /* Your logic here */
-    console.log("Input handled", e.target.value);
+    if (e.target.value === "0") {
+      router.push(`/`);
+      return;
+    }
     router.push(`/region/${e.target.value}`);
     /* You need to do this to refresh all server side components (data-fetch) */
     router.refresh();
@@ -19,7 +29,7 @@ export default function FilterInput() {
       {/* <Input type="text" placeholder="Type.." onChange={handleInput} /> */}
       <select
         onChange={handleInput}
-        defaultValue="0"
+        defaultValue={selectDefaultValue}
         className="rounded-none rounded-e-lg bg-primary border text-white block flex-1 min-w-0 w-full text-sm p-2.5 placeholder-white"
       >
         <option value="0">All</option>
