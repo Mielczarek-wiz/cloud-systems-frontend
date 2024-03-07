@@ -6,6 +6,7 @@ export default function ModifyButton({ id }: { id: Number }) {
   const router = useRouter();
   const handleModify = (id: Number) => {
     /* Your logic here */
+    router.push(`/object/${id}`);
     console.log(id);
 
     /* You need to do this to refresh all server side components (data-fetch) */

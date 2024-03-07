@@ -6,6 +6,7 @@ export default function AddButton() {
   const router = useRouter();
   const handleAddButton = async () => {
     /* Your logic here */
+    router.push("/object");
     console.log("Add button clicked");
 
     /* You need to do this to refresh all server side components (data-fetch) */
