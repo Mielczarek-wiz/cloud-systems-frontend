@@ -1,6 +1,6 @@
 "use client";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { postOne } from "@/api/apiCalls";
+import { postOne, updateOne } from "@/api/apiCalls";
 import Input from "./formComponents/Input";
 import { useRouter } from "next/navigation";
 
@@ -60,7 +60,12 @@ export default function ObjectForm({ object }: { object?: Inputs }) {
       data.id = object!.id;
     }
     console.log(data);
-    const result = await postOne(data);
+    let result;
+    if (object!.id == 0) {
+      result = await postOne(data);
+    } else {
+      result = await updateOne(object!.id, data);
+    }
     console.log(result);
     router.refresh();
     router.push("/");
