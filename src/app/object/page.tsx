@@ -1,9 +1,11 @@
 import ObjectForm from "@/components/forms/ObjectForm";
 
-export default function Page({ params }: { params: { id: string } }) {
+export default function Page() {
   return (
-    <div className="container mx-auto p-4 max-w-screen-md">
-      <h1 className="text-2xl my-8 mx-4">Add Object</h1>
+    <div className="px-10 mx-auto h-full">
+      <h1 className="text-2xl p-4 border rounded-lg text-center w-1/2 mx-auto">
+        Add Object
+      </h1>
       <ObjectForm />
     </div>
   );

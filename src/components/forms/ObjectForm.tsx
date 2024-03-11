@@ -1,31 +1,30 @@
 "use client";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { postOne, updateOne } from "@/api/apiCalls";
-import Input from "./formComponents/Input";
 import { useRouter } from "next/navigation";
-
-type Inputs = {
-  id: number;
-  country: string;
-  confirmed: string;
-  deaths: string;
-  recovered: string;
-  active: string;
-  newCases: string;
-  newDeaths: string;
-  newRecovered: string;
-  confirmedLastWeek: string;
-  whoId?: number;
-};
+import Input from "./formComponents/Input";
+import { Data, Inputs, Regions } from "./types";
+import Select from "./formComponents/Select";
+import Submit from "./formComponents/Submit";
+import { use, useEffect, useState } from "react";
 
 export default function ObjectForm({ object }: { object?: Inputs }) {
   const router = useRouter();
+  const [regions, setRegions] = useState<Regions[]>([]);
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch("http://localhost:8080/region");
+      const data = await response.json();
+      setRegions(data);
+    }
+    fetchData();
+  }, []);
 
   if (object == null) {
     object = {
@@ -42,149 +41,128 @@ export default function ObjectForm({ object }: { object?: Inputs }) {
       whoId: 0,
     };
   }
-  const whoRegions: string[] = [];
-  whoRegions[1] = "Eastern Mediterranean";
-  whoRegions[2] = "Africa";
-  whoRegions[3] = "Americas";
-  whoRegions[4] = "Western Pacific";
-  whoRegions[5] = "Europe";
-  whoRegions[6] = "South-East Asia";
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log("new record: ", object!.id == 0);
-    console.log(data);
-    // @ts-ignore
-    data.whoRegion = { region: whoRegions[data.whoId] };
-    delete data.whoId;
-    if (object!.id != 0) {
-      data.id = object!.id;
-    }
-    console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
+    const formData: Data = {
+      id: data.id,
+      country: data.country,
+      confirmed: data.confirmed,
+      deaths: data.deaths,
+      recovered: data.recovered,
+      active: data.active,
+      newCases: data.newCases,
+      newDeaths: data.newDeaths,
+      newRecovered: data.newRecovered,
+      confirmedLastWeek: data.confirmedLastWeek,
+      region: regions.find((region: Regions) => region.id == data.whoId).region,
+    };
+
+    console.log(formData);
     let result;
-    if (object!.id == 0) {
-      result = await postOne(data);
+    if (formData!.id == 0) {
+      result = await postOne(formData);
     } else {
-      result = await updateOne(object!.id, data);
+      result = await updateOne(formData!.id, formData);
     }
-    console.log(result);
-    router.refresh();
     router.push("/");
-    router.refresh();
   };
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>Country name</div>
-      <input
-        className="rounded-none rounded-e-lg bg-primary border text-white block flex-1 min-w-0 w-full text-sm p-2.5 placeholder-white mb-2"
+    <form
+      className="grid grid-cols-1 gap-2 w-1/2 mx-auto"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <Input
         type="text"
+        registerName="country"
+        label="Country name"
         defaultValue={object.country}
-        {...register("country", { required: true })}
+        register={register}
+        required
+        error={errors.country}
       />
-      {errors.country && (
-        <div className="text-red-300">This field is required</div>
-      )}
-      <div>Confirmed cases</div>
-      <input
-        className="rounded-none rounded-e-lg bg-primary border text-white block flex-1 min-w-0 w-full text-sm p-2.5 placeholder-white mb-2"
+      <Input
         type="number"
+        registerName="confirmed"
+        label="Confirmed cases"
         defaultValue={object.confirmed}
-        {...register("confirmed", { required: true })}
+        register={register}
+        required
+        error={errors.confirmed}
       />
-      {errors.confirmed && (
-        <div className="text-red-300">This field is required</div>
-      )}
-      <div>Deaths</div>
-      <input
-        className="rounded-none rounded-e-lg bg-primary border text-white block flex-1 min-w-0 w-full text-sm p-2.5 placeholder-white mb-2"
+      <Input
         type="number"
+        registerName="deaths"
+        label="Deaths"
         defaultValue={object.deaths}
-        {...register("deaths", { required: true })}
+        register={register}
+        required
+        error={errors.deaths}
       />
-      {errors.deaths && (
-        <div className="text-red-300">This field is required</div>
-      )}
-      <div>Recovered</div>
-      <input
-        className="rounded-none rounded-e-lg bg-primary border text-white block flex-1 min-w-0 w-full text-sm p-2.5 placeholder-white mb-2"
+      <Input
         type="number"
+        registerName="recovered"
+        label="Recovered"
         defaultValue={object.recovered}
-        {...register("recovered", { required: true })}
+        register={register}
+        required
+        error={errors.recovered}
       />
-      {errors.recovered && (
-        <div className="text-red-300">This field is required</div>
-      )}
-      <div>Active</div>
-      <input
-        className="rounded-none rounded-e-lg bg-primary border text-white block flex-1 min-w-0 w-full text-sm p-2.5 placeholder-white mb-2"
+      <Input
         type="number"
+        registerName="active"
+        label="Active"
         defaultValue={object.active}
-        {...register("active", { required: true })}
+        register={register}
+        required
+        error={errors.active}
       />
-      {errors.active && (
-        <div className="text-red-300">This field is required</div>
-      )}
-      <div>New cases</div>
-      <input
-        className="rounded-none rounded-e-lg bg-primary border text-white block flex-1 min-w-0 w-full text-sm p-2.5 placeholder-white mb-2"
+      <Input
         type="number"
+        registerName="newCases"
+        label="New cases"
         defaultValue={object.newCases}
-        {...register("newCases", { required: true })}
+        register={register}
+        required
+        error={errors.newCases}
       />
-      {errors.newCases && (
-        <div className="text-red-300">This field is required</div>
-      )}
-      <div>New deaths</div>
-      <input
-        className="rounded-none rounded-e-lg bg-primary border text-white block flex-1 min-w-0 w-full text-sm p-2.5 placeholder-white mb-2"
+
+      <Input
         type="number"
+        registerName="newDeaths"
+        label="New deaths"
         defaultValue={object.newDeaths}
-        {...register("newDeaths", { required: true })}
+        register={register}
+        required
+        error={errors.newDeaths}
       />
-      {errors.newDeaths && (
-        <div className="text-red-300">This field is required</div>
-      )}
-      <div>New recovered</div>
-      <input
-        className="rounded-none rounded-e-lg bg-primary border text-white block flex-1 min-w-0 w-full text-sm p-2.5 placeholder-white mb-2"
+      <Input
         type="number"
+        registerName="newRecovered"
+        label="New recovered"
         defaultValue={object.newRecovered}
-        {...register("newRecovered", { required: true })}
+        register={register}
+        required
+        error={errors.newRecovered}
       />
-      {errors.newRecovered && (
-        <div className="text-red-300">This field is required</div>
-      )}
-      <div>Confirmed last week</div>
-      <input
-        className="rounded-none rounded-e-lg bg-primary border text-white block flex-1 min-w-0 w-full text-sm p-2.5 placeholder-white mb-2"
+      <Input
         type="number"
+        registerName="confirmedLastWeek"
+        label="Confirmed last week"
         defaultValue={object.confirmedLastWeek}
-        {...register("confirmedLastWeek", { required: true })}
+        register={register}
+        required
+        error={errors.confirmedLastWeek}
       />
-      {errors.confirmedLastWeek && (
-        <div className="text-red-300">This field is required</div>
-      )}
-      <select
-        {...register("whoId", { required: true, min: 1 })}
+      <Select
         defaultValue={object.whoId}
-        className="rounded-none rounded-e-lg bg-primary border text-white block flex-1 min-w-0 w-full text-sm p-2.5 placeholder-white mb-2"
-      >
-        <option value="0">Choose...</option>
-        <option value="1">Eastern Mediterranean</option>
-        <option value="2">Africa</option>
-        <option value="3">Americas</option>
-        <option value="4">Western Pacific</option>
-        <option value="5">Europe</option>
-        <option value="6">South-East Asia</option>
-      </select>
-      {errors.whoId && (
-        <div className="text-red-300">This field is required</div>
-      )}
-      <input
-        className="rounded-none rounded-e-lg bg-primary border text-black block flex-1 min-w-0 m-auto my-8 text-sm p-2.5 hover:bg-gray-500"
-        type="submit"
-        value="Submit"
+        otherOptions={{ min: 1 }}
+        register={register}
+        registerName="whoId"
+        required
+        error={errors.whoId}
+        regions={regions}
       />
+      <Submit />
     </form>
   );
 }

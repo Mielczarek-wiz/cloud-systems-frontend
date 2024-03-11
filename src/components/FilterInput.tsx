@@ -1,6 +1,5 @@
 "use client";
 import { useRouter, usePathname } from "next/navigation";
-import Input from "./forms/formComponents/Input";
 
 export default function FilterInput() {
   const router = useRouter();
