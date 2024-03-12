@@ -1,3 +1,16 @@
+type Record = {
+  country: string;
+  confirmed: number;
+  deaths: number;
+  recovered: number;
+  active: number;
+  newCases: number;
+  newDeaths: number;
+  newRecovered: number;
+  confirmedLastWeek: number;
+  whoId: number;
+};
+
 export const getAll = async () => {
   try {
     const response = await fetch("http://localhost:8080/object", {
@@ -6,19 +19,17 @@ export const getAll = async () => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
-export const getAllByRegionId = async (region_id: number) => {
+export const getAllByRegionId = async (regionId: number) => {
   try {
-    const response = await fetch(`http://localhost:8080/region/${region_id}`, {
-      cache: "no-store",
-    });
+    const response = await fetch(`http://localhost:8080/region/${regionId}`);
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -28,37 +39,19 @@ export const getOneById = async (id: number) => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
-export const updateOne = async (id: number, record: any) => {
+export const createOrUpdate = async (record: Record, method: string) => {
   try {
-    const response = await fetch(`http://localhost:8080/object/${id}`, {
-      method: "PUT",
+    await fetch(`http://localhost:8080/object`, {
+      method: method,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(record),
     });
-    console.log(response);
-    const data = response.body;
-    return data;
   } catch (error) {
-    console.log(error);
-  }
-};
-
-export const postOne = async (record: any) => {
-  try {
-    const response = await fetch("http://localhost:8080/object", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(record),
-    });
-    console.log(response);
-    const data = response.body;
-    return data;
-  } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -68,6 +61,6 @@ export const getStats = async () => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };

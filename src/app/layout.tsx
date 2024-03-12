@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Title from "@/components/Title";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Covid 19 stats",
@@ -17,11 +14,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <div className="pt-10">
-          <Title/>
+      <body>
+        <div className="pt-10 h-1/6">
+          <Title />
         </div>
-        {children}
+        <section className="h-5/6 overflow-y-auto mx-auto">{children}</section>
       </body>
     </html>
   );
