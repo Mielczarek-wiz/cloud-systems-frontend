@@ -10,10 +10,10 @@ type Record = {
   confirmedLastWeek: number;
   whoId: number;
 };
-
+const backendUrl = "http://192.168.50.5:8080";
 export const getAll = async () => {
   try {
-    const response = await fetch("http://localhost:8080/object", {
+    const response = await fetch(`${backendUrl}/object`, {
       cache: "no-store",
     });
     const data = await response.json();
@@ -25,7 +25,7 @@ export const getAll = async () => {
 
 export const getAllByRegionId = async (regionId: number) => {
   try {
-    const response = await fetch(`http://localhost:8080/region/${regionId}`);
+    const response = await fetch(`${backendUrl}/region/${regionId}`);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -35,7 +35,7 @@ export const getAllByRegionId = async (regionId: number) => {
 
 export const getOneById = async (id: number) => {
   try {
-    const response = await fetch(`http://localhost:8080/object/${id}`);
+    const response = await fetch(`${backendUrl}/object/${id}`);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -45,7 +45,7 @@ export const getOneById = async (id: number) => {
 
 export const createOrUpdate = async (record: Record, method: string) => {
   try {
-    await fetch(`http://localhost:8080/object`, {
+    await fetch(`${backendUrl}/object`, {
       method: method,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(record),
@@ -57,7 +57,16 @@ export const createOrUpdate = async (record: Record, method: string) => {
 
 export const getStats = async () => {
   try {
-    const response = await fetch("http://localhost:8080/stats");
+    const response = await fetch(`${backendUrl}/stats`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const getRegions = async () => {
+  try {
+    const response = await fetch(`${backendUrl}/region`);
     const data = await response.json();
     return data;
   } catch (error) {
