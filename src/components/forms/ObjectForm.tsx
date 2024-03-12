@@ -7,7 +7,6 @@ import { Data, Regions } from "./types";
 import Select from "./formComponents/Select";
 import Submit from "./formComponents/Submit";
 import { useEffect, useMemo, useState } from "react";
-import { revalidatePath, revalidateTag } from "next/cache";
 
 export default function ObjectForm({ object }: { object?: Data }) {
   const defaultValues = useMemo(() => {
@@ -60,7 +59,6 @@ export default function ObjectForm({ object }: { object?: Data }) {
       confirmedLastWeek: Number(data.confirmedLastWeek),
       whoId: Number(data.whoId),
     };
-    console.log(formData);
     if (formData.id == -1) {
       await createOrUpdate(formData, "POST");
     } else {

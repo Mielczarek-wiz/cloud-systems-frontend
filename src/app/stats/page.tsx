@@ -1,5 +1,5 @@
 import LinkButton from "@/components/LinkButton";
-import StatsTable from "@/components/StatsTable";
+import StatsTable from "@/components/tables/StatsTable";
 
 export default function Stats() {
   return (

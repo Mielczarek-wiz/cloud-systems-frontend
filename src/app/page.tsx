@@ -1,5 +1,5 @@
 import FunctionalityComponent from "@/components/FunctionalityComponent";
-import MainTable from "@/components/MainTable";
+import MainTable from "@/components/tables/MainTable";
 
 export default function Home() {
   return (

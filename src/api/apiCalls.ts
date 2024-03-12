@@ -19,19 +19,17 @@ export const getAll = async () => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
-export const getAllByRegionId = async (region_id: number) => {
+export const getAllByRegionId = async (regionId: number) => {
   try {
-    const response = await fetch(`http://localhost:8080/region/${region_id}`, {
-      cache: "no-store",
-    });
+    const response = await fetch(`http://localhost:8080/region/${regionId}`);
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -41,7 +39,7 @@ export const getOneById = async (id: number) => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -53,7 +51,7 @@ export const createOrUpdate = async (record: Record, method: string) => {
       body: JSON.stringify(record),
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -63,6 +61,6 @@ export const getStats = async () => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };

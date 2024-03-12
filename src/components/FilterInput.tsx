@@ -7,8 +7,11 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 export default function FilterInput() {
   const pathname = usePathname();
+  const defaultValues = {
+    regionId: Number(pathname.split("/")[1]) || 0,
+  };
   const { register, reset, handleSubmit } = useForm<{ regionId: number }>({
-    defaultValues: { regionId: Number(pathname.split("/")[2]) || 0 },
+    defaultValues: defaultValues,
   });
   const [regions, setRegions] = useState<Regions[]>([]);
   const router = useRouter();
@@ -18,13 +21,10 @@ export default function FilterInput() {
       const response = await fetch("http://localhost:8080/region");
       const data = await response.json();
       setRegions(data);
-      reset({ regionId: Number(pathname.split("/")[1]) || 0 });
-    }
-    if (Number(pathname.split("/")[1]) === 0) {
-      router.push("/");
+      reset({ regionId: defaultValues.regionId });
     }
     fetchData();
-  }, [reset, pathname, router]);
+  }, [reset, router, defaultValues.regionId]);
 
   const onSubmit: SubmitHandler<{ regionId: number }> = async ({
     regionId,
