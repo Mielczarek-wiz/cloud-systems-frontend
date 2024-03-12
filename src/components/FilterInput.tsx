@@ -4,6 +4,7 @@ import Options from "./forms/formComponents/Options";
 import { useEffect, useState } from "react";
 import { Regions } from "./forms/types";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { getRegions } from "@/api/apiCalls";
 
 export default function FilterInput() {
   const pathname = usePathname();
@@ -18,8 +19,7 @@ export default function FilterInput() {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch("http://localhost:8080/region");
-      const data = await response.json();
+      const data = await getRegions();
       setRegions(data);
       reset({ regionId: defaultValues.regionId });
     }

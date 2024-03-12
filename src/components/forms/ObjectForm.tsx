@@ -1,6 +1,6 @@
 "use client";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { createOrUpdate } from "@/api/apiCalls";
+import { createOrUpdate, getRegions } from "@/api/apiCalls";
 import { useRouter } from "next/navigation";
 import Input from "./formComponents/Input";
 import { Data, Regions } from "./types";
@@ -37,8 +37,7 @@ export default function ObjectForm({ object }: { object?: Data }) {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch("http://localhost:8080/region");
-      const data = await response.json();
+      const data = await getRegions();
       setRegions(data);
       reset({ ...defaultValues, whoId: defaultValues.whoId });
     }
