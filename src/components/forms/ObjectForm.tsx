@@ -68,7 +68,7 @@ export default function ObjectForm({ object }: { object?: Data }) {
   };
   return (
     <form
-      className="grid grid-cols-1 gap-2 w-1/2 mx-auto"
+      className="grid grid-cols-1 gap-2 w-2/3 md:w-1/3 mx-auto"
       onSubmit={handleSubmit(onSubmit)}
     >
       <Input
