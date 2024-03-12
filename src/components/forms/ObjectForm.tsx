@@ -7,6 +7,7 @@ import { Data, Regions } from "./types";
 import Select from "./formComponents/Select";
 import Submit from "./formComponents/Submit";
 import { useEffect, useMemo, useState } from "react";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export default function ObjectForm({ object }: { object?: Data }) {
   const defaultValues = useMemo(() => {

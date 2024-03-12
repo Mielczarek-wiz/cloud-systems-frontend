@@ -47,14 +47,11 @@ export const getOneById = async (id: number) => {
 
 export const createOrUpdate = async (record: Record, method: string) => {
   try {
-    const response = await fetch(`http://localhost:8080/object`, {
+    await fetch(`http://localhost:8080/object`, {
       method: method,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(record),
     });
-
-    const data = response.body;
-    console.log(data);
   } catch (error) {
     console.log(error);
   }
