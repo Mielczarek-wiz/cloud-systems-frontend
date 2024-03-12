@@ -1,29 +1,15 @@
-export type Inputs = {
-  id: number;
-  country: string;
-  confirmed: string;
-  deaths: string;
-  recovered: string;
-  active: string;
-  newCases: string;
-  newDeaths: string;
-  newRecovered: string;
-  confirmedLastWeek: string;
-  whoId: number;
-};
-
 export type Data = {
   id: number;
   country: string;
-  confirmed: string;
-  deaths: string;
-  recovered: string;
-  active: string;
-  newCases: string;
-  newDeaths: string;
-  newRecovered: string;
-  confirmedLastWeek: string;
-  region: string;
+  confirmed: number;
+  deaths: number;
+  recovered: number;
+  active: number;
+  newCases: number;
+  newDeaths: number;
+  newRecovered: number;
+  confirmedLastWeek: number;
+  whoId: number;
 };
 export type Regions = {
   id: number;

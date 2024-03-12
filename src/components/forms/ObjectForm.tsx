@@ -1,68 +1,69 @@
 "use client";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { postOne, updateOne } from "@/api/apiCalls";
+import { createOrUpdate } from "@/api/apiCalls";
 import { useRouter } from "next/navigation";
 import Input from "./formComponents/Input";
-import { Data, Inputs, Regions } from "./types";
+import { Data, Regions } from "./types";
 import Select from "./formComponents/Select";
 import Submit from "./formComponents/Submit";
-import { use, useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-export default function ObjectForm({ object }: { object?: Inputs }) {
+export default function ObjectForm({ object }: { object?: Data }) {
+  const defaultValues = useMemo(() => {
+    return {
+      id: Number(object?.id) || -1,
+      country: object?.country || "",
+      confirmed: Number(object?.confirmed) || 0,
+      deaths: Number(object?.deaths) || 0,
+      recovered: Number(object?.recovered) || 0,
+      active: Number(object?.active) || 0,
+      newCases: Number(object?.newCases) || 0,
+      newDeaths: Number(object?.newDeaths) || 0,
+      newRecovered: Number(object?.newRecovered) || 0,
+      confirmedLastWeek: Number(object?.confirmedLastWeek) || 0,
+      whoId: Number(object?.whoId) || 1,
+    };
+  }, [object]);
   const router = useRouter();
   const [regions, setRegions] = useState<Regions[]>([]);
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<Data>({
+    defaultValues: defaultValues,
+  });
 
   useEffect(() => {
     async function fetchData() {
       const response = await fetch("http://localhost:8080/region");
       const data = await response.json();
       setRegions(data);
+      reset({ ...defaultValues, whoId: defaultValues.whoId });
     }
     fetchData();
-  }, []);
+  }, [reset, defaultValues]);
 
-  if (object == null) {
-    object = {
-      id: 0,
-      country: "",
-      confirmed: "",
-      deaths: "",
-      recovered: "",
-      active: "",
-      newCases: "",
-      newDeaths: "",
-      newRecovered: "",
-      confirmedLastWeek: "",
-      whoId: 0,
-    };
-  }
-
-  const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
+  const onSubmit: SubmitHandler<Data> = async (data: Data) => {
     const formData: Data = {
-      id: data.id,
+      id: Number(data.id),
       country: data.country,
-      confirmed: data.confirmed,
-      deaths: data.deaths,
-      recovered: data.recovered,
-      active: data.active,
-      newCases: data.newCases,
-      newDeaths: data.newDeaths,
-      newRecovered: data.newRecovered,
-      confirmedLastWeek: data.confirmedLastWeek,
-      region: regions.find((region: Regions) => region.id == data.whoId).region,
+      confirmed: Number(data.confirmed),
+      deaths: Number(data.deaths),
+      recovered: Number(data.recovered),
+      active: Number(data.active),
+      newCases: Number(data.newCases),
+      newDeaths: Number(data.newDeaths),
+      newRecovered: Number(data.newRecovered),
+      confirmedLastWeek: Number(data.confirmedLastWeek),
+      whoId: Number(data.whoId),
     };
-
     console.log(formData);
-    let result;
-    if (formData!.id == 0) {
-      result = await postOne(formData);
+    if (formData.id == -1) {
+      await createOrUpdate(formData, "POST");
     } else {
-      result = await updateOne(formData!.id, formData);
+      await createOrUpdate(formData, "PUT");
     }
     router.push("/");
   };
@@ -75,7 +76,6 @@ export default function ObjectForm({ object }: { object?: Inputs }) {
         type="text"
         registerName="country"
         label="Country name"
-        defaultValue={object.country}
         register={register}
         required
         error={errors.country}
@@ -84,7 +84,6 @@ export default function ObjectForm({ object }: { object?: Inputs }) {
         type="number"
         registerName="confirmed"
         label="Confirmed cases"
-        defaultValue={object.confirmed}
         register={register}
         required
         error={errors.confirmed}
@@ -93,7 +92,6 @@ export default function ObjectForm({ object }: { object?: Inputs }) {
         type="number"
         registerName="deaths"
         label="Deaths"
-        defaultValue={object.deaths}
         register={register}
         required
         error={errors.deaths}
@@ -102,7 +100,6 @@ export default function ObjectForm({ object }: { object?: Inputs }) {
         type="number"
         registerName="recovered"
         label="Recovered"
-        defaultValue={object.recovered}
         register={register}
         required
         error={errors.recovered}
@@ -111,7 +108,6 @@ export default function ObjectForm({ object }: { object?: Inputs }) {
         type="number"
         registerName="active"
         label="Active"
-        defaultValue={object.active}
         register={register}
         required
         error={errors.active}
@@ -120,7 +116,6 @@ export default function ObjectForm({ object }: { object?: Inputs }) {
         type="number"
         registerName="newCases"
         label="New cases"
-        defaultValue={object.newCases}
         register={register}
         required
         error={errors.newCases}
@@ -130,7 +125,6 @@ export default function ObjectForm({ object }: { object?: Inputs }) {
         type="number"
         registerName="newDeaths"
         label="New deaths"
-        defaultValue={object.newDeaths}
         register={register}
         required
         error={errors.newDeaths}
@@ -139,7 +133,6 @@ export default function ObjectForm({ object }: { object?: Inputs }) {
         type="number"
         registerName="newRecovered"
         label="New recovered"
-        defaultValue={object.newRecovered}
         register={register}
         required
         error={errors.newRecovered}
@@ -148,13 +141,11 @@ export default function ObjectForm({ object }: { object?: Inputs }) {
         type="number"
         registerName="confirmedLastWeek"
         label="Confirmed last week"
-        defaultValue={object.confirmedLastWeek}
         register={register}
         required
         error={errors.confirmedLastWeek}
       />
       <Select
-        defaultValue={object.whoId}
         otherOptions={{ min: 1 }}
         register={register}
         registerName="whoId"

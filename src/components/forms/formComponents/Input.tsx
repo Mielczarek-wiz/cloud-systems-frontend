@@ -1,14 +1,13 @@
 import { FieldError, Path, UseFormRegister } from "react-hook-form";
-import { Inputs } from "../types";
+import { Data } from "../types";
 import Error from "./Error";
 
 type InputProps = {
-  registerName: Path<Inputs>;
+  registerName: Path<Data>;
   type: string;
   label: string;
   placeholder?: string;
-  defaultValue: string;
-  register: UseFormRegister<Inputs>;
+  register: UseFormRegister<Data>;
   required: boolean;
   error?: FieldError;
 };
@@ -18,7 +17,6 @@ export default function Input({
   type,
   label,
   placeholder,
-  defaultValue,
   register,
   required,
   error,
@@ -30,7 +28,6 @@ export default function Input({
         type={type}
         className="rounded-e-lg bg-primary border text-white p-2 placeholder-white"
         placeholder={placeholder}
-        defaultValue={defaultValue}
         {...register(registerName, { required })}
       />
 

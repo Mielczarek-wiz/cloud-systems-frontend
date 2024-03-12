@@ -1,3 +1,16 @@
+type Record = {
+  country: string;
+  confirmed: number;
+  deaths: number;
+  recovered: number;
+  active: number;
+  newCases: number;
+  newDeaths: number;
+  newRecovered: number;
+  confirmedLastWeek: number;
+  whoId: number;
+};
+
 export const getAll = async () => {
   try {
     const response = await fetch("http://localhost:8080/object", {
@@ -32,31 +45,16 @@ export const getOneById = async (id: number) => {
   }
 };
 
-export const updateOne = async (id: number, record: any) => {
+export const createOrUpdate = async (record: Record, method: string) => {
   try {
-    const response = await fetch(`http://localhost:8080/object/${id}`, {
-      method: "PUT",
+    const response = await fetch(`http://localhost:8080/object`, {
+      method: method,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(record),
     });
-    console.log(response);
-    const data = response.body;
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};
 
-export const postOne = async (record: any) => {
-  try {
-    const response = await fetch("http://localhost:8080/object", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(record),
-    });
-    console.log(response);
     const data = response.body;
-    return data;
+    console.log(data);
   } catch (error) {
     console.log(error);
   }

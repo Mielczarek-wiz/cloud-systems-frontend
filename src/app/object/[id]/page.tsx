@@ -1,16 +1,18 @@
 import { getOneById } from "@/api/apiCalls";
 import ObjectForm from "@/components/forms/ObjectForm";
 
-export default async function Page({ params }: { params: { id: string } }) {
-  const object_id = Number(params.id);
-  if (Number.isNaN(object_id)) {
+export default async function Page({ params }: { params: { id: number } }) {
+  if (Number.isNaN(params.id)) {
     return <div className="m-8">NaN</div>;
   }
-  const data = await getOneById(object_id);
+  const object = await getOneById(params.id);
+
   return (
-    <div className="container mx-auto p-4  max-w-screen-md">
-      <h1 className="text-2xl my-8 mx-4">Modify Object</h1>
-      <ObjectForm object={data} />
-    </div>
+    <>
+      <h1 className="text-2xl p-4 border rounded-lg text-center w-1/2 mx-auto">
+        Modify Object
+      </h1>
+      <ObjectForm object={object} />
+    </>
   );
 }
