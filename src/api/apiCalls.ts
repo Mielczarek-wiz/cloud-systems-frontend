@@ -10,7 +10,7 @@ type Record = {
   confirmedLastWeek: number;
   whoId: number;
 };
-const backendUrl = "http://192.168.50.5:8080";
+const backendUrl = "http://192.168.50.5:6789";
 export const getAll = async () => {
   try {
     const response = await fetch(`${backendUrl}/object`, {
@@ -25,7 +25,9 @@ export const getAll = async () => {
 
 export const getAllByRegionId = async (regionId: number) => {
   try {
-    const response = await fetch(`${backendUrl}/region/${regionId}`);
+    const response = await fetch(`${backendUrl}/region/${regionId}`, {
+      cache: "no-store",
+    });
     const data = await response.json();
     return data;
   } catch (error) {
@@ -57,7 +59,9 @@ export const createOrUpdate = async (record: Record, method: string) => {
 
 export const getStats = async () => {
   try {
-    const response = await fetch(`${backendUrl}/stats`);
+    const response = await fetch(`${backendUrl}/stats`, {
+      cache: "no-store",
+    });
     const data = await response.json();
     return data;
   } catch (error) {
