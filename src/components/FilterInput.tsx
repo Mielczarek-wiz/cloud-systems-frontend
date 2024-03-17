@@ -1,7 +1,7 @@
 "use client";
 import { useRouter, usePathname } from "next/navigation";
 import Options from "./forms/formComponents/Options";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Regions } from "./forms/types";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { getRegions } from "@/api/apiCalls";
@@ -17,14 +17,19 @@ export default function FilterInput() {
   const [regions, setRegions] = useState<Regions[]>([]);
   const router = useRouter();
 
-  useEffect(() => {
-    async function fetchData() {
+  const fetchData = useCallback(async () => {
+    try {
       const data = await getRegions();
       setRegions(data);
-      reset({ regionId: defaultValues.regionId });
+      // reset({ regionId: defaultValues.regionId });
+    } catch (error) {
+      console.error(error);
     }
+  }, []);
+
+  useEffect(() => {
     fetchData();
-  }, [reset, router, defaultValues.regionId]);
+  }, [fetchData]);
 
   const onSubmit: SubmitHandler<{ regionId: number }> = async ({
     regionId,
