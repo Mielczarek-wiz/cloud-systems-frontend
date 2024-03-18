@@ -22,7 +22,7 @@ export default function FilterInput() {
 
     try {
       const data = await getRegions();
-      setRegions(data);
+      // setRegions(data);
       // reset({ regionId: defaultValues.regionId });
     } catch (error) {
       console.error(error);

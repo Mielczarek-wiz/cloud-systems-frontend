@@ -71,8 +71,9 @@ export const getStats = async () => {
 export const getRegions = async () => {
   try {
     const response = await fetch(`${backendUrl}/region`);
-    const data = await response.json();
-    return data;
+    console.log(response);
+    //const data = await response.json();
+    //return data;
   } catch (error) {
     console.error(error);
   }
