@@ -18,6 +18,8 @@ export default function FilterInput() {
   const router = useRouter();
 
   const fetchData = useCallback(async () => {
+    const abortController = new AbortController();
+
     try {
       const data = await getRegions();
       setRegions(data);
@@ -25,10 +27,21 @@ export default function FilterInput() {
     } catch (error) {
       console.error(error);
     }
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
   useEffect(() => {
-    fetchData();
+    let cleanup = () => {};
+
+    (async () => {
+      cleanup = await fetchData();
+    })();
+
+    return () => {
+      cleanup();
+    };
   }, [fetchData]);
 
   const onSubmit: SubmitHandler<{ regionId: number }> = async ({
