@@ -10,7 +10,7 @@ type Record = {
   confirmedLastWeek: number;
   whoId: number;
 };
-const backendUrl = "http://192.168.50.4:6789";
+const backendUrl = "http://192.168.50.5:6789";
 export const getAll = async () => {
   try {
     const response = await fetch(`${backendUrl}/object`, {
