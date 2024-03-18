@@ -7,12 +7,12 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { getRegions } from "@/api/apiCalls";
 
 export default function FilterInput() {
-  const pathname = usePathname();
-  const defaultValues = {
-    regionId: Number(pathname.split("/")[1]) || 0,
-  };
+  // const pathname = usePathname();
+  // const defaultValues = {
+  //   regionId: Number(pathname.split("/")[1]) || 0,
+  // };
   const { register, reset, handleSubmit } = useForm<{ regionId: number }>({
-    defaultValues: defaultValues,
+    defaultValues: { regionId: 0 },
   });
   const [regions, setRegions] = useState<Regions[]>([]);
   const router = useRouter();
