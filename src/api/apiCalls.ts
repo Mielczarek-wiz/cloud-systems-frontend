@@ -10,7 +10,7 @@ type Record = {
   confirmedLastWeek: number;
   whoId: number;
 };
-const backendUrl = "http://192.168.50.5:6789";
+const backendUrl = "http://localhost:6789";
 export const getAll = async () => {
   try {
     const response = await fetch(`${backendUrl}/object`, {
@@ -71,9 +71,8 @@ export const getStats = async () => {
 export const getRegions = async () => {
   try {
     const response = await fetch(`${backendUrl}/region`);
-    console.log(response);
-    //const data = await response.json();
-    //return data;
+    const data = await response.json();
+    return data;
   } catch (error) {
     console.error(error);
   }
