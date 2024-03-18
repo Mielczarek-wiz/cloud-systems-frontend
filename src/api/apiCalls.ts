@@ -10,10 +10,9 @@ type Record = {
   confirmedLastWeek: number;
   whoId: number;
 };
-const backendUrl = "http://192.168.50.5:6789";
 export const getAll = async () => {
   try {
-    const response = await fetch(`${backendUrl}/object`, {
+    const response = await fetch(`${process.env.NEXT_PRIVATE_API_URL}/object`, {
       cache: "no-store",
     });
     const data = await response.json();
@@ -25,9 +24,12 @@ export const getAll = async () => {
 
 export const getAllByRegionId = async (regionId: number) => {
   try {
-    const response = await fetch(`${backendUrl}/region/${regionId}`, {
-      cache: "no-store",
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PRIVATE_API_URL}/region/${regionId}`,
+      {
+        cache: "no-store",
+      }
+    );
     const data = await response.json();
     return data;
   } catch (error) {
@@ -37,7 +39,9 @@ export const getAllByRegionId = async (regionId: number) => {
 
 export const getOneById = async (id: number) => {
   try {
-    const response = await fetch(`${backendUrl}/object/${id}`);
+    const response = await fetch(
+      `${process.env.NEXT_PRIVATE_API_URL}/object/${id}`
+    );
     const data = await response.json();
     return data;
   } catch (error) {
@@ -47,7 +51,7 @@ export const getOneById = async (id: number) => {
 
 export const createOrUpdate = async (record: Record, method: string) => {
   try {
-    await fetch(`${backendUrl}/object`, {
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/object`, {
       method: method,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(record),
@@ -59,7 +63,7 @@ export const createOrUpdate = async (record: Record, method: string) => {
 
 export const getStats = async () => {
   try {
-    const response = await fetch(`${backendUrl}/stats`, {
+    const response = await fetch(`${process.env.NEXT_PRIVATE_API_URL}/stats`, {
       cache: "no-store",
     });
     const data = await response.json();
@@ -70,7 +74,7 @@ export const getStats = async () => {
 };
 export const getRegions = async () => {
   try {
-    const response = await fetch(`http://localhost:6789/region`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/region`);
     const data = await response.json();
     return data;
   } catch (error) {

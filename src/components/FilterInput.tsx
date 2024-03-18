@@ -7,10 +7,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { getRegions } from "@/api/apiCalls";
 
 export default function FilterInput() {
-  // const pathname = usePathname();
-  // const defaultValues = {
-  //   regionId: Number(pathname.split("/")[1]) || 0,
-  // };
+  const pathname = usePathname();
+  const defaultValues = {
+    regionId: Number(pathname.split("/")[1]) || 0,
+  };
   const { register, reset, handleSubmit } = useForm<{ regionId: number }>({
     defaultValues: { regionId: 0 },
   });
@@ -22,16 +22,15 @@ export default function FilterInput() {
 
     try {
       const data = await getRegions();
-      console.log(data);
-      // setRegions(data);
-      // reset({ regionId: defaultValues.regionId });
+      setRegions(data);
+      reset({ regionId: defaultValues.regionId });
     } catch (error) {
       console.error(error);
     }
     return () => {
       abortController.abort();
     };
-  }, []);
+  }, [defaultValues.regionId, reset]);
 
   useEffect(() => {
     let cleanup = () => {};

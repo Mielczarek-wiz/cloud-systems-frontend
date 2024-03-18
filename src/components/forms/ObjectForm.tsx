@@ -6,7 +6,7 @@ import Input from "./formComponents/Input";
 import { Data, Regions } from "./types";
 import Select from "./formComponents/Select";
 import Submit from "./formComponents/Submit";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 export default function ObjectForm({ object }: { object?: Data }) {
   const defaultValues = useMemo(() => {
@@ -34,15 +34,32 @@ export default function ObjectForm({ object }: { object?: Data }) {
   } = useForm<Data>({
     defaultValues: defaultValues,
   });
+  const fetchData = useCallback(async () => {
+    const abortController = new AbortController();
+
+    try {
+      const data = await getRegions();
+      setRegions(data);
+      reset({ ...defaultValues, whoId: defaultValues.whoId });
+    } catch (error) {
+      console.error(error);
+    }
+    return () => {
+      abortController.abort();
+    };
+  }, [defaultValues, reset]);
 
   useEffect(() => {
-    async function fetchData() {
-      const data = await getRegions();
-      //setRegions(data);
-      //reset({ ...defaultValues, whoId: defaultValues.whoId });
-    }
-    fetchData();
-  }, [reset, defaultValues]);
+    let cleanup = () => {};
+
+    (async () => {
+      cleanup = await fetchData();
+    })();
+
+    return () => {
+      cleanup();
+    };
+  }, [fetchData]);
 
   const onSubmit: SubmitHandler<Data> = async (data: Data) => {
     const formData: Data = {
