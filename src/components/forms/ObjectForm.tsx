@@ -38,8 +38,8 @@ export default function ObjectForm({ object }: { object?: Data }) {
   useEffect(() => {
     async function fetchData() {
       const data = await getRegions();
-      setRegions(data);
-      reset({ ...defaultValues, whoId: defaultValues.whoId });
+      //setRegions(data);
+      //reset({ ...defaultValues, whoId: defaultValues.whoId });
     }
     fetchData();
   }, [reset, defaultValues]);
